@@ -17,9 +17,7 @@ class Usuario extends Model {
       email: {
         type: Sequelize.STRING,
         defaultValue: "",
-        unique: {
-          msg: "Email já utilizado! Tente outro.",
-        },
+        unique: true,
         validate: {
           isEmail: {
             msg: "Email invalido!",
@@ -45,15 +43,15 @@ class Usuario extends Model {
         sequelize, //Recebe a conexão com o banco
       });
 
-      this.addHook("beforeSave", async usuario =>{
-        if(usuario.senha) {
-          usuario.senha_hash = await bcrypt.hash(usuario.senha, 8)
-        }
-      });
+    this.addHook("beforeSave", async usuario => {
+      if (usuario.senha) {
+        usuario.senha_hash = await bcrypt.hash(usuario.senha, 8)
+      }
+    });
     return this;
   }
 
-  passwordIsValid(senha){
+  passwordIsValid(senha) {
     return bcrypt.compare(senha, this.senha_hash);
   }
 };

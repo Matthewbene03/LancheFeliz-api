@@ -5,8 +5,8 @@ export const indexUsuario = async (req, res) => {
         const usuarios = await Usuario.findAll();
         res.json(usuarios);
     } catch (e) {
-        res.status(400).json({
-            "erros": ["Erro Incomum"]
+        return res.status(400).json({
+            "erros": e.errors.map((err) => err.message),
         })
     }
 }
@@ -24,8 +24,8 @@ export const showUsuario = async (req, res) => {
         const usuario = await Usuario.findByPk(id);
         res.json(usuario);
     } catch (e) {
-        res.status(400).json({
-            "erros": ["Erro Incomum"]
+        return res.status(400).json({
+            "erros": e.errors.map((err) => err.message),
         })
     }
 }
@@ -43,8 +43,14 @@ export const createUsuario = async (req, res) => {
         const novoUsuario = await Usuario.create(dadosUsuario);
         res.json(novoUsuario);
     } catch (e) {
-        res.status(400).json({
-            "erros": ["Erro Incomum"]
+        if (e.name === "SequelizeUniqueConstraintError") {
+            return res.status(400).json({
+                "erros": ["Email já existe."],
+            })
+        }
+
+        return res.status(400).json({
+            "erros": e.errors.map((err) => err.message),
         })
     }
 }
@@ -77,8 +83,14 @@ export const updateUsuario = async (req, res) => {
         const novoUsuario = await usuarioVelho.update(dadosUsuario);
         res.json(novoUsuario);
     } catch (e) {
-        res.status(400).json({
-            "erros": ["Erro Incomum"]
+        if (e.name === "SequelizeUniqueConstraintError") {
+            return res.status(400).json({
+                "erros": ["Email já existe."],
+            })
+        }
+
+        return res.status(400).json({
+            "erros": e.errors.map((err) => err.message),
         })
     }
 }
@@ -103,8 +115,8 @@ export const deleteUsuario = async (req, res) => {
         const usuarioDeletado = await usuarioVelho.destroy();
         res.json(usuarioDeletado);
     } catch (e) {
-        res.status(400).json({
-            "erros": ["Erro Incomum"]
+        return res.status(400).json({
+            "erros": e.errors.map((err) => err.message),
         })
     }
 }
