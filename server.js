@@ -1,12 +1,18 @@
 //Importações de arquivos do node
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import path from "path";
 
 //Importações de arquivos proprios
+import "./src/database/index"
 import clienteRouter from "./src/routes/clienteRoutes"
 import caixaRouter from "./src/routes/caixaRoutes"
 import cozinhaRouter from "./src/routes/cozinhaRoutes"
 import garcomRouter from "./src/routes/garcomRoutes"
+import usuarioRouter from "./src/routes/usuarioRoutes"
+
 
 //Criando o "app"
 const app = express(); //Inicio o express
@@ -22,6 +28,7 @@ app.use("/clientes", clienteRouter);
 app.use("/caixa", caixaRouter);
 app.use("/garcom", garcomRouter);
 app.use("/cozinha", cozinhaRouter);
+app.use("/usuario", usuarioRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World from Express!');

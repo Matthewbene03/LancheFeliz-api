@@ -1,0 +1,8 @@
+const {resolve} = require("path");
+
+module.exports = {
+  config: resolve(__dirname, "src", "config", "database.js"), //Arquivo de configuração da base de dados
+  "models-path": resolve(__dirname, "src", "models"), //Pasta aonde fica os models para o bando de dados
+  "migrations-path": resolve(__dirname, "src", "database", "migrations"), //
+  "seeders-path": resolve(__dirname, "src", "database", "seeds"),
+};
