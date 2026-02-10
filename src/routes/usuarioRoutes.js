@@ -1,4 +1,5 @@
-import * as usuarioController from "../controller/usuarioController"
+import * as usuarioController from "../controller/usuarioController";
+import loginRequired from "../middlewares/loginRequired";
 import express from "express";
 
 const router = express.Router();
@@ -13,10 +14,10 @@ router.get("/:id", usuarioController.showUsuario)
 router.post("/", usuarioController.createUsuario)
 
 //update -> atualiza um usuario -> PATCH ou PUT
-router.put("/:id", usuarioController.updateUsuario)
+router.put("/", loginRequired, usuarioController.updateUsuario)
 
 //delete -> apaga um usuario -> DELETE
-router.delete("/:id", usuarioController.deleteUsuario)
+router.delete("/", loginRequired, usuarioController.deleteUsuario)
 
 
 export default router;

@@ -12,6 +12,7 @@ import caixaRouter from "./src/routes/caixaRoutes"
 import cozinhaRouter from "./src/routes/cozinhaRoutes"
 import garcomRouter from "./src/routes/garcomRoutes"
 import usuarioRouter from "./src/routes/usuarioRoutes"
+import tokenRouter from "./src/routes/tokenRoutes"
 
 
 //Criando o "app"
@@ -29,10 +30,13 @@ app.use("/caixa", caixaRouter);
 app.use("/garcom", garcomRouter);
 app.use("/cozinha", cozinhaRouter);
 app.use("/usuario", usuarioRouter);
+app.use("/token", tokenRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World from Express!');
 });
+
+
 
 const port = 3001;
 app.listen(port, () =>{
