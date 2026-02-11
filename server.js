@@ -7,11 +7,9 @@ import path from "path";
 
 //Importações de arquivos proprios
 import "./src/database/index"
-import clienteRouter from "./src/routes/clienteRoutes"
-import caixaRouter from "./src/routes/caixaRoutes"
-import cozinhaRouter from "./src/routes/cozinhaRoutes"
-import garcomRouter from "./src/routes/garcomRoutes"
 import usuarioRouter from "./src/routes/usuarioRoutes"
+import produtoRouter from "./src/routes/produtoRoutes"
+import servicoRouter from "./src/routes/servicoRoutes"
 import tokenRouter from "./src/routes/tokenRoutes"
 
 
@@ -25,18 +23,14 @@ app.use(express.static(path.resolve(__dirname, 'uploads'))); //Informa para o ex
 
 
 //Rotas proprias criadas
-app.use("/clientes", clienteRouter);
-app.use("/caixa", caixaRouter);
-app.use("/garcom", garcomRouter);
-app.use("/cozinha", cozinhaRouter);
 app.use("/usuario", usuarioRouter);
+app.use("/produto", produtoRouter);
+app.use("/servico", servicoRouter);
 app.use("/token", tokenRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World from Express!');
 });
-
-
 
 const port = 3001;
 app.listen(port, () =>{

@@ -1,30 +1,25 @@
-import * as produtoController from "../controller/produtoController"
+import * as produtoController from "../controller/produtoController";
 import express from "express";
 
 const router = express.Router();
 
-//index -> Lista todos os usuarios -> GET
+//index -> Lista todos os produtos -> GET
 router.get("/", produtoController.indexProduto)
 
-//show -> mostra um usuario -> GET
+//show -> mostra um produto -> GET
 router.get("/:id", produtoController.showProduto)
 
-//store/create -> cria um novo usuario -> POST
+//store/create -> cria um novo produto -> POST
+//Obs: Adicionar futuramente o loginRequired sendo que apenas o usuário com o tipo de "gerente" pode fazer essa requisição
 router.post("/", produtoController.createProduto)
 
-//update -> atualiza um usuario -> PATCH ou PUT
-router.put("/:id", produtoController.updateProduto)
+//update -> atualiza um produto -> PATCH ou PUT
+//Obs: Adicionar futuramente o loginRequired sendo que apenas o usuário com o tipo de "gerente" pode fazer essa requisição
+router.put("/", produtoController.updateProduto)
 
-//delete -> apaga um usuario -> DELETE
-router.delete("/:id", produtoController.deleteProduto)
+//delete -> apaga um produto -> DELETE
+//Obs: Adicionar futuramente o loginRequired sendo que apenas o usuário com o tipo de "gerente" pode fazer essa requisição
+router.delete("/", produtoController.deleteProduto)
 
 
 export default router;
-
-/* Metodos do controller
-  index -> Lista todos os usuarios -> GET
-  store/create -> cria um novo usuario -> POST
-  delete -> apaga um usuario -> DELETE
-  show -> mostra um usuario -> GET
-  update -> atualiza um usuario -> PATCH ou PUT
-*/
