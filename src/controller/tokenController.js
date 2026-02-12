@@ -23,8 +23,9 @@ export const createToken = async (req, res) => {
             erros: ["Senha invalida!"],
         })
     }
-    const { id } = usuario;
-    const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
+
+    const { id, tipo } = usuario;
+    const token = jwt.sign({ id, email, tipo}, process.env.TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRATION,
     }); //Cria o token para esse usuário apartir do seu id e email, utilizando as configurações no arquivo .env
 

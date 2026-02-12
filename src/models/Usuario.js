@@ -24,6 +24,11 @@ class Usuario extends Model {
           }
         }
       },
+      tipo: {
+        type: Sequelize.STRING,
+        defaultValue: "",
+        allowNull: false
+      },
       senha_hash: {
         type: Sequelize.STRING,
         defaultValue: "",
