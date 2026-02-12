@@ -29,5 +29,5 @@ export const createToken = async (req, res) => {
         expiresIn: process.env.TOKEN_EXPIRATION,
     }); //Cria o token para esse usuário apartir do seu id e email, utilizando as configurações no arquivo .env
 
-    return res.json({ token }) //Retorna um objeto com a chave token e usuario
+    return res.json({ token, user: {nome: usuario.nome, id, email}}) //Retorna um objeto com a chave token e usuario
 }

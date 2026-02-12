@@ -1,8 +1,16 @@
 import Produto from "../models/Produto";
+import Foto from "../models/Foto"
 
 export const indexProduto = async (req, res) => {
     try {
-        const produtos = await Produto.findAll({ attributes: ["id", "nome", "preco", "categoria", "ativo", "tempoPreparo"] });
+        const produtos = await Produto.findAll({
+            attributes: ["id", "nome", "preco", "categoria", "ativo", "tempoPreparo"],
+            order: [["id", "DESC"], [Foto, "id", "DESC"]],
+            include: {
+                model: Foto,
+                attributes: ["url", "filename"]
+            }
+        });
 
         if (!produtos.length) {
             return res.status(400).json({
@@ -29,7 +37,14 @@ export const showProduto = async (req, res) => {
             })
         }
 
-        const produto = await Produto.findByPk(id);
+        const produto = await Produto.findByPk(id, {
+            attributes: ["id", "nome", "preco", "categoria", "ativo", "tempoPreparo"],
+            order: [["id", "DESC"], [Foto, "id", "DESC"]],
+            include: {
+                model: Foto,
+                attributes: ["url", "filename"]
+            }
+        });
 
         if (!produto) {
             return res.status(400).json({
@@ -83,8 +98,8 @@ export const updateProduto = async (req, res) => {
             })
         }
 
-        const {id:idUser, nome, preco, categoria, ativo, tempoPreparo} = await produtoVelho.update(dadosProduto)
-        res.json({idUser, nome, preco, categoria, ativo, tempoPreparo});
+        const { id: idUser, nome, preco, categoria, ativo, tempoPreparo } = await produtoVelho.update(dadosProduto)
+        res.json({ idUser, nome, preco, categoria, ativo, tempoPreparo });
     } catch (e) {
         return res.status(400).json({
             "erros": e.errors.map((err) => err.message),
