@@ -1,8 +1,21 @@
 import Servico from "../models/Servico";
+import * as TipoUsuario from "../config/enums/TipoUsuario"
 
 export const indexServico = async (req, res) => {
+    const tipo = req.tipoUsuario;
     try {
-        const servicos = await Servico.findAll();
+
+        let servicos = [];
+
+        if (tipo === TipoUsuario.Cliente || tipo === TipoUsuario.Garcom) {
+            servicos = await Servico.findAll({
+                where: {
+                    usuario_id: req.userId
+                }
+            });
+        } else {
+            servicos = await Servico.findAll();
+        }
 
         if (!servicos.length) {
             return res.status(400).json({
@@ -46,8 +59,9 @@ export const showServico = async (req, res) => {
 
 export const createServico = async (req, res) => {
     const dadosServico = req.body;
-    try {
+    const tipo = req.tipoUsuario;
 
+    try {
         if (!dadosServico) {
             return res.status(400).json({
                 "erros": ["É necessário informar os dados do produto"]
@@ -55,6 +69,7 @@ export const createServico = async (req, res) => {
         }
 
         const novoServico = await Servico.create(dadosServico);
+
         res.json(novoServico);
     } catch (e) {
         console.log("O erro começa aqui" + e)

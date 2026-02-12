@@ -31,11 +31,3 @@ router.delete("/:id", loginRequiredGerente, usuarioController.deleteUsuario)
 
 
 export default router;
-
-/* Metodos do controller
-  index -> Lista todos os usuarios -> GET
-  store/create -> cria um novo usuario -> POST
-  delete -> apaga um usuario -> DELETE
-  show -> mostra um usuario -> GET
-  update -> atualiza um usuario -> PATCH ou PUT
-*/
