@@ -1,5 +1,7 @@
 import Usuario from "../models/Usuario";
+import Servico from "../models/Servico";
 import * as TipoUsuario from "../config/enums/TipoUsuario"
+import * as StatusPedido from "../config/enums/StatusPedido"
 
 export const indexUsuario = async (req, res) => {
     try {
@@ -41,6 +43,7 @@ export const showUsuario = async (req, res) => {
 export const createUsuarioCliente = async (req, res) => {
     const dadosUsuario = req.body;
     dadosUsuario.tipo = TipoUsuario.Cliente;
+    dadosUsuario.ativo = true;
 
     try {
         if (!dadosUsuario) {
@@ -49,7 +52,7 @@ export const createUsuarioCliente = async (req, res) => {
             })
         }
 
-        const { id, nome, email, tipo } = await Usuario.create(dadosUsuario);
+        const { id, nome, email, tipo,} = await Usuario.create(dadosUsuario);
         res.json({ id, nome, email, tipo });
     } catch (e) {
         if (e.name === "SequelizeUniqueConstraintError") {
@@ -66,6 +69,7 @@ export const createUsuarioCliente = async (req, res) => {
 
 export const createUsuarioFuncionario = async (req, res) => {
     const dadosUsuario = req.body;
+    dadosUsuario.ativo = true;
 
     try {
         if (!dadosUsuario) {
@@ -128,15 +132,15 @@ export const updateUsuario = async (req, res) => {
 }
 
 export const deleteUsuario = async (req, res) => {
-    const { tipo } = req.tipoUsuario;
+    const tipo = req.tipoUsuario;
 
-    if (tipo !== TipoUsuario.Cliente || tipo !==TipoUsuario.Gerente) { //Daqui só passa se for cliente ou gerente.
+    if (tipo !== TipoUsuario.Cliente && tipo !== TipoUsuario.Gerente) { //Daqui só passa se for cliente ou gerente.
         return res.status(400).json({
             "erros": ["Você não tem autorização para deletar a sua conta!"]
         })
     }
 
-    const id  = req.userId || req.params.id;
+    const id = req.userId || req.params.id;
     try {
         if (!id) {
             return res.status(400).json({
@@ -151,11 +155,28 @@ export const deleteUsuario = async (req, res) => {
                 "erros": ["Usuário não encontrado!"]
             })
         }
-        await usuarioVelho.destroy();
+
+        const servicoEmAndamentoUsuario = await Servico.findAll({
+            where: {
+                usuario_id: usuarioVelho.id,
+                status: StatusPedido.EmAndamento
+            }
+        });
+
+        if (servicoEmAndamentoUsuario.length) {
+            return res.status(400).json({
+                "erros": ["Esse usuário não pode ser deletado por ter pedidos em andamento!"]
+            })
+        }
+
+        await usuarioVelho.update({
+            ativo: false
+        });
         res.json(null);
     } catch (e) {
+        console.log("ERROR: " + e)
         return res.status(400).json({
-            "erros": e.errors.map((err) => err.message),
+            "erros": e.errors?.map((err) => err.message),
         })
     }
 }

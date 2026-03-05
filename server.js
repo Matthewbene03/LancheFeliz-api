@@ -21,7 +21,7 @@ const app = express(); //Inicio o express
 
 //Configuração para o cors
 const whiteList = [
-  "http://localhost:3000"
+  "http://localhost:5173"
 ]
 
 const corsOptions = {

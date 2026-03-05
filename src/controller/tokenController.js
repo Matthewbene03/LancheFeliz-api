@@ -1,3 +1,4 @@
+import { json } from "sequelize";
 import Usuario from "../models/Usuario"
 import jwt from "jsonwebtoken";
 
@@ -28,6 +29,5 @@ export const createToken = async (req, res) => {
     const token = jwt.sign({ id, email, tipo}, process.env.TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRATION,
     }); //Cria o token para esse usuário apartir do seu id e email, utilizando as configurações no arquivo .env
-
-    return res.json({ token, user: {nome: usuario.nome, id, email}}) //Retorna um objeto com a chave token e usuario
+    return res.json({token, user: {nome: usuario.nome, id, email, tipo}})
 }

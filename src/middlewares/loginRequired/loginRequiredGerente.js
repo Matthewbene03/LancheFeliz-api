@@ -4,9 +4,10 @@ import * as TiposUsuario from "../../config/enums/TipoUsuario"
 
 export default async (req, res, next) => {
   const { authorization } = req.headers;
+  console.log(authorization)
   if (!authorization) {
     return res.status(400).json({
-      erros: ["Usuário inválido!"],
+      erros: ["Auth: Usuário inválido!"],
     });
   }
 
@@ -37,7 +38,7 @@ export default async (req, res, next) => {
 
     req.userIdGerente = id;
     req.userEmailGerente = email;
-    req.tipoUsuario = tipo;
+    req.tipoUsuario = dados.tipo;
     return next();
   } catch (e) {
     return res.status(400).json({

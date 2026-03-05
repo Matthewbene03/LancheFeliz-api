@@ -22,20 +22,28 @@ export default async (req, res, next) => {
 
     console.log(id, email, tipo)
 
+    console.log(tipo)
+    
     const user = await Usuario.findOne({
       where: {
         id,
         email
       }
     });
-
+    
     if (!user) {
       return res.status(400).json({
         erros: ["Usuário inválido!"],
       });
     }
 
-    if (user.tipo !== TiposUsuario.Cliente || user.tipo !== TiposUsuario.Garcom) {
+    console.log(typeof user.tipo)
+    console.log(typeof TiposUsuario.Cliente)
+    console.log(user.tipo)
+    console.log(TiposUsuario.Cliente)
+
+    
+    if (user.tipo != TiposUsuario.Cliente && user.tipo != TiposUsuario.Garcom) {
       return res.status(400).json({
         erros: ["Você não tem permissão para realizar esta ação."],
       });

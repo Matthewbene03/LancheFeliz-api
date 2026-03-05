@@ -3,6 +3,7 @@ import * as TipoUsuario from "../config/enums/TipoUsuario"
 
 export const indexServico = async (req, res) => {
     const tipo = req.tipoUsuario;
+    console.log(tipo)
     try {
 
         let servicos = [];

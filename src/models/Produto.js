@@ -21,7 +21,7 @@ class Produto extends Model {
             categoria: {
                 type: Sequelize.STRING,
                 defaultValue: "",
-                unique: true
+                unique: false
             },
             ativo: {
                 type: Sequelize.BOOLEAN,

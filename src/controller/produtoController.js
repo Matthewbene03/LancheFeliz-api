@@ -74,8 +74,10 @@ export const createProduto = async (req, res) => {
         res.json({ idUser, nome, preco, categoria, ativo, tempoPreparo });
     } catch (e) {
         return res.status(400).json({
-            "erros": e.errors.map((err) => err.message),
-        })
+            erros: e.errors
+                ? e.errors.map(err => err.message)
+                : [e.message],
+        });
     }
 }
 

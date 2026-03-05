@@ -29,6 +29,11 @@ class Usuario extends Model {
         defaultValue: "",
         allowNull: false
       },
+      ativo: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+        allowNull: false
+      },
       senha_hash: {
         type: Sequelize.STRING,
         defaultValue: "",
